@@ -7,6 +7,26 @@
 const http = require('http')
 const port = 3000
 
+/*
+*
+* Copied from Lesson 1
+*
+*/
+
+const https = require('https');
+
+var d = [];
+https.get('https://api.stlouisfed.org/fred/series?series_id=GNPCA&api_key=a317e3bc1c064490ef1f196c1d4b8dab&file_type=json', (res) => {
+
+  res.on('data', (e) => {
+    process.stdout.write(e);
+    d = e;
+  });
+
+}).on('error', (e) => {
+  console.error(e);
+});
+
 
 /*
 *	Log the request that is made to the server
@@ -14,7 +34,7 @@ const port = 3000
 */
 const requestHandler = (request, response) => {
 	console.log(request.url)
-	response.end('Hello. World! From Node.js Server')
+	response.end(d)
 }
 const server = http.createServer(requestHandler)
 
